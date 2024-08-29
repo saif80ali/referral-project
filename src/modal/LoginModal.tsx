@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../store/store'
 import { toggleLoginModal } from '../store/features/login/loginState';
 import Modal from 'react-bootstrap/Modal';
-import loginImage from '../assets/loginVectorImage.jpg';
+import loginImage from '../assets/loginVectorImage.png';
 import whiteSpinner from '../assets/White loader.svg';
 
 import { useForm, SubmitHandler } from "react-hook-form";
