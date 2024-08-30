@@ -8,6 +8,7 @@ import whiteSpinner from '../assets/White loader.svg';
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { postMethod } from "../services/apiCallService";
+import { useNavigate } from 'react-router-dom';
 
 
 interface IFormInput {
@@ -16,10 +17,11 @@ interface IFormInput {
 }
 
 export function LoginModal() {
-  const showModal = useSelector((state: RootState) => state.userLogin.loginModal);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-
+  const showModal = useSelector((state: RootState) => state.userLogin.loginModal);
+  
   const { register, handleSubmit, reset, formState: { errors }, } = useForm<IFormInput>()
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
@@ -28,6 +30,7 @@ export function LoginModal() {
       setLoading(false);
       dispatch(toggleLoginModal());
       dispatch(setUserLoggedIn(true));
+      navigate("/dashboard");
       console.log(data);
     }).catch((error:any) => {
       setLoading(false);
@@ -38,9 +41,9 @@ export function LoginModal() {
   const handleOnchange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const passwordInput: HTMLInputElement | null = document.getElementById("userPassword") as HTMLInputElement;
     if (event.target.checked) {
-        passwordInput.type = "text";
+      passwordInput.type = "text";
     } else {
-        passwordInput.type = "password";
+      passwordInput.type = "password";
     }
   }
   const handleModalClose = ()=> {
@@ -78,8 +81,7 @@ export function LoginModal() {
                     </div>
 
                     <button type="submit" className="btn btn-warning d-flex align-items-center justify-content-center w-100" disabled={loading}>
-                        {!loading && <span className='text-light'>Log in</span>}
-                        {loading && <img style={{height:'24px'}} src={whiteSpinner} alt='Loading icon'/>}
+                        {loading ? <img style={{height:'24px'}} src={whiteSpinner} alt='Loading icon'/> : <span className='text-light'>Log in</span>}
                     </button>
                 </form>
             </div>

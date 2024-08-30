@@ -8,6 +8,7 @@ import { LoginModal } from './modal/LoginModal';
 import Header from './components/Header.tsx'
 import HeroBanner from './components/HeroBanner';
 import Dashboard from './components/Dashboard.tsx';
+import NewEntryForm from './components/NewEntryForm.tsx';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HeroBanner/>}/>
         <Route path="dashboard" element={<Dashboard/>}/>
+        <Route path="new-entry" element={<NewEntryForm/>}/>
       </Routes>
       <LoginModal></LoginModal>
       <Toaster></Toaster>

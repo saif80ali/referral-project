@@ -1,6 +1,8 @@
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import NoRecordsFound from './NoRecordsFound';
+import { NavLink } from 'react-router-dom';
+
 
 const columns: GridColDef<(typeof rows)[number]>[] = [
   { field: 'id', headerName: 'ID', width: 90 },
@@ -45,24 +47,33 @@ const rows = [
   { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
 ];
 
+function DataTable() {
+  return (
+    <>
+      <Box sx={{ height: 400, width: '100%' }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 5,
+              },
+            },
+          }}
+          pageSizeOptions={[5]}
+          disableRowSelectionOnClick
+        />
+      </Box>
+      <NavLink className='btn btn-primary mt-2' to="/new-entry">Add a new record</NavLink>
+    </>
+  )
+}
+
 export default function Dashboard() {
   return (
     <section className='container'>
-        {rows.length ? <Box sx={{ height: 400, width: '100%' }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 5,
-            },
-          },
-        }}
-        pageSizeOptions={[5]}
-        disableRowSelectionOnClick
-      />
-    </Box> : <NoRecordsFound></NoRecordsFound>}
+      {rows.length ? DataTable() : <NoRecordsFound></NoRecordsFound>}
     </section>
     
   );

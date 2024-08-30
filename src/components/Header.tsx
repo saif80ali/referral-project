@@ -1,15 +1,20 @@
 import "../style/navbar.scss";
-import { toggleLoginModal } from "../store/features/loginState";
+import { toggleLoginModal, setUserLoggedIn } from "../store/features/loginState";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { RootState } from "../store/store";
 export default function Header() {
   const dispatch = useDispatch();
 
+  const handleLogout = () => {
+    dispatch(setUserLoggedIn(false));
+  }
+
   function logoutButton(){
     return (<button
       type="button"
-      className="btn btn-outline-dark border-0 fw-bold">
+      className="btn btn-outline-dark border-0 fw-bold"
+      onClick={handleLogout}>
       Logout
     </button>)
   }
@@ -36,9 +41,9 @@ export default function Header() {
   return (
     <nav className="navbar border-body">
       <div className="container">
-        <Link to={"/"} className="mb-0 fs-1 heading-logo-font nav-link">ReferMe</Link>
+        <NavLink to={"/"} className="mb-0 fs-1 heading-logo-font nav-link">ReferMe</NavLink>
         <ul className="navbar-nav">
-          <li className="nav-item "><Link to="/dashboard" className="nav-link">Dashboard</Link></li>
+          <li className="nav-item "><NavLink to="/dashboard" className={({ isActive }) => `nav-link ${isActive ? 'active':''}`}>Dashboard</NavLink></li>
         </ul>
         <div className="d-flex gap-2" role="search">
           {NavButton}
