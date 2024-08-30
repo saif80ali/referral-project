@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../store/store'
-import { toggleLoginModal } from '../store/features/loginState';
+import { toggleLoginModal, setUserLoggedIn } from '../store/features/loginState';
 import Modal from 'react-bootstrap/Modal';
 import loginImage from '../assets/loginVectorImage.png';
 import whiteSpinner from '../assets/White loader.svg';
@@ -22,11 +22,17 @@ export function LoginModal() {
 
   const { register, handleSubmit, reset, formState: { errors }, } = useForm<IFormInput>()
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    const response = postMethod("auth/login", data);
-    console.log("response", response);
-    // setLoading(!loading);
-    console.log(data);
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    setLoading(true);
+    postMethod("auth/login", data).then((data: any) => {
+      setLoading(false);
+      dispatch(toggleLoginModal());
+      dispatch(setUserLoggedIn(true));
+      console.log(data);
+    }).catch((error:any) => {
+      setLoading(false);
+      console.error(error);
+    });  
   }
 
   const handleOnchange = (event: React.ChangeEvent<HTMLInputElement>) => {
