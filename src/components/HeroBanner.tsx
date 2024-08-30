@@ -1,4 +1,4 @@
-import { toggleLoginModal } from '../store/features/login/loginState';
+import { toggleLoginModal } from '../store/features/loginState';
 import { useDispatch } from 'react-redux';
 
 export default function HeroBanner() {

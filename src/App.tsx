@@ -1,18 +1,24 @@
 import './App.scss'
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-import Navbar from './components/Navbar'
-import HeroBanner from './components/HeroBanner';
-import { LoginModal } from './modal/LoginModal';
 import store from './store/store.ts';
 import { Provider } from 'react-redux'
+import { Route, Routes } from 'react-router-dom';
+import { Toaster } from './components/Toaster.tsx';
+import { LoginModal } from './modal/LoginModal';
+import Header from './components/Header.tsx'
+import HeroBanner from './components/HeroBanner';
+import Dashboard from './components/Dashboard.tsx';
 
 function App() {
   return (
     <Provider store={store}>
-      <Navbar></Navbar>
-      <HeroBanner></HeroBanner>
+      <Header></Header>
+      <Routes>
+        <Route path="/" element={<HeroBanner/>}/>
+        <Route path="dashboard" element={<Dashboard/>}/>
+      </Routes>
       <LoginModal></LoginModal>
+      <Toaster></Toaster>
     </Provider>
   )
 }

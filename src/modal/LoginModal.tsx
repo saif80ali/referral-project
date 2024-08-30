@@ -1,27 +1,31 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../store/store'
-import { toggleLoginModal } from '../store/features/login/loginState';
+import { toggleLoginModal } from '../store/features/loginState';
 import Modal from 'react-bootstrap/Modal';
 import loginImage from '../assets/loginVectorImage.png';
 import whiteSpinner from '../assets/White loader.svg';
 
 import { useForm, SubmitHandler } from "react-hook-form";
+import { postMethod } from "../services/apiCallService";
 
 
 interface IFormInput {
-    email: string
-    password: string
+  email: string
+  password: string
 }
 
 export function LoginModal() {
-  const show = useSelector((state: RootState) => state.userLogin.loginModal);
+  const showModal = useSelector((state: RootState) => state.userLogin.loginModal);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
-  const { register, handleSubmit, formState: { errors }, } = useForm<IFormInput>()
+  const { register, handleSubmit, reset, formState: { errors }, } = useForm<IFormInput>()
+
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    setLoading(!loading);
+    const response = postMethod("auth/login", data);
+    console.log("response", response);
+    // setLoading(!loading);
     console.log(data);
   }
 
@@ -33,11 +37,15 @@ export function LoginModal() {
         passwordInput.type = "password";
     }
   }
+  const handleModalClose = ()=> {
+    dispatch(toggleLoginModal());
+    reset();
+  }
   return (
     <>
       <Modal
-        show={show}
-        onHide={()=>{dispatch(toggleLoginModal())}}
+        show={showModal}
+        onHide={handleModalClose}
         backdrop="static"
         keyboard={false}
         centered

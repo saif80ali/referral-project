@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction  } from '@reduxjs/toolkit';
 
 export interface userLoginState {
-    loginModal: boolean;
-    userLoggedIn: boolean;
+  loginModal: boolean;
+  userLoggedIn: boolean;
 }
 
 export const initialState: userLoginState = {
-    loginModal: false,
-    userLoggedIn: false,
+  loginModal: false,
+  userLoggedIn: false,
 };
 
 export const userLoginSlice = createSlice({
@@ -23,7 +23,7 @@ export const userLoginSlice = createSlice({
       state.loginModal = !state.loginModal;
     },
     setUserLoggedIn(state, action: PayloadAction<boolean>) {
-        state.userLoggedIn = action.payload;
+      state.userLoggedIn = action.payload;
     },
   },
 })
