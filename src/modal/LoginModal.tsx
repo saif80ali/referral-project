@@ -26,16 +26,24 @@ export function LoginModal() {
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     setLoading(true);
-    postMethod("auth/login", data).then((data: any) => {
+    postMethod("auth/login", data).then((response: any) => {
       setLoading(false);
-      dispatch(toggleLoginModal());
-      dispatch(setUserLoggedIn(true));
-      navigate("/dashboard");
-      console.log(data);
+      if (response.data.success) {
+        dispatch(toggleLoginModal());
+        setAuthToken(response.data.signedToken);
+      }
     }).catch((error:any) => {
       setLoading(false);
       console.error(error);
     });  
+  }
+
+  function setAuthToken(token: string) {
+    if(token.length) {
+      localStorage.setItem("token", token);
+      dispatch(setUserLoggedIn(true));
+      navigate("/dashboard");
+    }
   }
 
   const handleOnchange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,7 +79,7 @@ export function LoginModal() {
                     {errors.email && <span className='text-danger'>{errors.email.message}</span>}
 
                     <div className="mt-3">
-                        <input id="userPassword" type="password" {...register("password", { required: {value: true, message:"Password is required"},minLength:{value:8, message: "Password must be of atleast 8 characters"}, maxLength: 150})}  className={`form-control ${errors.password ? 'is-invalid':''}`} disabled={loading} placeholder='Password'/>
+                        <input id="userPassword" type="password" {...register("password", { required: {value: true, message:"Password is required"},minLength:{value:4, message: "Password must be of atleast 8 characters"}, maxLength: 150})}  className={`form-control ${errors.password ? 'is-invalid':''}`} disabled={loading} placeholder='Password'/>
                     </div>
                     {errors.password && <span className='text-danger'>{errors.password.message}</span>}
 
