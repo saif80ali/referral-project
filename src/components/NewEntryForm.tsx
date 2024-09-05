@@ -1,4 +1,6 @@
 import { useForm, SubmitHandler } from "react-hook-form";
+import { postMethod } from "../services/apiCallService";
+import { useNavigate } from "react-router-dom";
 
 
 export default function NewEntryForm() {
@@ -10,10 +12,16 @@ export default function NewEntryForm() {
         quantity: number,
         amount: number,
     }
-
-    const { register, handleSubmit, getValues, setValue, getFieldState, formState: { errors } } = useForm<NewRecordModal>()
+    const navigate = useNavigate();
+    const { register, handleSubmit, getValues, setValue, getFieldState, watch, formState: { errors } } = useForm<NewRecordModal>()
     const onSubmit:SubmitHandler<NewRecordModal> = async (data:NewRecordModal) => {
-        console.log(data);
+        postMethod("stocks/addTransaction", data).then((response) => {
+            alert("New record added");
+            navigate("/dashboard");
+            
+        }).catch((err) => {
+            alert("Some erro ocurred");
+        })
     }
 
     function debounce(func: Function, delay: number): (...args: any[]) => void {
@@ -66,13 +74,23 @@ export default function NewEntryForm() {
         
     }
     const enhanceOnchange = debounce(setFinalAmout, 300);
+    const dropdownValue = watch('transaction_type');
     
     return (
         <div className="container">
             <form onSubmit={handleSubmit(onSubmit)}className="row g-3 d-flex justify-content-center my-4" noValidate>
                 <div className="col-md-4">
+                    <label htmlFor="transactionType" className="form-label">Type</label>
+                    <select {...register("transaction_type", { required: true})} defaultValue="" id="transactionType" className={`form-select ${errors.transaction_type ? 'is-invalid':''}`}>
+                        <option value="" disabled>Transaction type</option>
+                        <option value="buy">Buy</option>
+                        <option value="sell">Sell</option>
+                    </select>
+                </div>
+
+                <div className="col-md-4">
                     <label htmlFor="Stockname" className="form-label">Stock name</label>
-                    <input {...register("stock_name", { required: true, minLength:2})} className={`form-control ${errors.stock_name ? 'is-invalid':''}`} list="datalistOptions" id="Stockname" placeholder="Type here..."/>
+                    <input {...register("stock_name", { required: true, minLength:2})} className={`form-control ${errors.stock_name ? 'is-invalid':''}`} list="datalistOptions" id="Stockname" placeholder="Type here..." disabled={dropdownValue ? false : true} />
                     <datalist id="datalistOptions">
                         <option value="San Francisco"/>
                         <option value="New York"/>
@@ -83,21 +101,12 @@ export default function NewEntryForm() {
                 </div>
 
                 <div className="col-md-4">
-                    <label htmlFor="transactionType" className="form-label">Type</label>
-                    <select {...register("transaction_type", { required: true})} id="transactionType" className={`form-select ${errors.transaction_type ? 'is-invalid':''}`}>
-                        <option value="">Transaction type</option>
-                        <option value="buy">Buy</option>
-                        <option value="sell">Sell</option>
-                    </select>
-                </div>
-
-                <div className="col-md-4">
                     <label htmlFor="transactionDate" className="form-label">Date</label>
                     <input {...register("transaction_date", { required: true})} type="date" className={`form-control ${errors.transaction_date ? 'is-invalid':''}`} id="transactionDate" />
                 </div>
                 <div className="col-md-2">
                     <label htmlFor="price" className="form-label">Price</label>
-                    <input {...register("price", { required: true, min: 0.1, pattern:/^\d+(\.\d{1})?$/})} type="number" onChange={(e)=>{enhanceOnchange(e, 'price')}} className={`form-control ${errors.price ? 'is-invalid':''}`} placeholder="0.00" id="price" />
+                    <input {...register("price", { required: true, min: 0.1, pattern:/^\d+(\.\d{1,2})?$/})} type="number" onChange={(e)=>{enhanceOnchange(e, 'price')}} className={`form-control ${errors.price ? 'is-invalid':''}`} placeholder="0.00" id="price" />
                 </div>
                 
                 <div className="col-md-2">

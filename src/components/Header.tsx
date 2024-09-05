@@ -3,10 +3,23 @@ import { toggleLoginModal, setUserLoggedIn } from "../store/features/loginState"
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { RootState } from "../store/store";
+import { useEffect } from "react";
+
+
 export default function Header() {
   const dispatch = useDispatch();
 
+  useEffect(()=>{
+    const token = localStorage.getItem("token");
+    if (token?.length) {
+      dispatch(setUserLoggedIn(true));
+    } else {
+      dispatch(setUserLoggedIn(false));
+    }
+  },[])
+
   const handleLogout = () => {
+    localStorage.removeItem("token");
     dispatch(setUserLoggedIn(false));
   }
 
