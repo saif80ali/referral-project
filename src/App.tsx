@@ -9,6 +9,8 @@ import Header from './components/Header.tsx'
 import HeroBanner from './components/HeroBanner';
 import Dashboard from './components/Dashboard.tsx';
 import NewEntryForm from './components/NewEntryForm.tsx';
+import { About } from './components/About.tsx';
+import { NotesDashboard } from './components/NotesDashboard.tsx';
 
 function App() {
   return (
@@ -16,7 +18,9 @@ function App() {
       <Header></Header>
       <Routes>
         <Route path="/" element={<HeroBanner/>}/>
-        <Route path="dashboard" element={<Dashboard/>}/>
+        <Route path="about" element={<About/>}/>
+        <Route path='notes' element={<NotesDashboard/>}/>
+        <Route path="transactions" element={<Dashboard/>}/>
         <Route path="new-entry" element={<NewEntryForm/>}/>
       </Routes>
       <LoginModal></LoginModal>

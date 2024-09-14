@@ -18,4 +18,20 @@ const postMethod = (endpoint:string, payload: Object) => {
     });
 }
 
-export {getMethod, postMethod};
+const putMethod = (endpoint:string, payload: Object) => {
+    return axios.put(baseURL + endpoint, payload, {
+        headers: {
+            'auth-token': localStorage.getItem('token'),
+        }
+    });
+}
+
+const deleteMethod = (endpoint:string) => {
+    return axios.delete(baseURL + endpoint, {
+        headers: {
+            'auth-token': localStorage.getItem('token'),
+        }
+    });
+}
+
+export {getMethod, postMethod, putMethod, deleteMethod};
