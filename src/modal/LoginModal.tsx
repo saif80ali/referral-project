@@ -42,7 +42,7 @@ export function LoginModal() {
     if(token.length) {
       localStorage.setItem("token", token);
       dispatch(setUserLoggedIn(true));
-      navigate("/dashboard");
+      navigate("/");
     }
   }
 

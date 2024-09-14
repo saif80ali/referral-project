@@ -5,11 +5,15 @@ import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 import NoRecordsFound from './NoRecordsFound';
-import {getMethod} from '../services/apiCallService';
+import {getMethod, deleteMethod} from '../services/apiCallService';
 import { NavLink } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { RootState } from "../store/store";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
+  let history = useNavigate();
   const [trasnactions, updateTrasnactions]: any = useState([]);
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
 
@@ -23,7 +27,12 @@ export default function Dashboard() {
 
   const handleDeleteClick = (id: GridRowId) => () => {
     console.log("clikci", id)
-    updateTrasnactions(trasnactions.filter((item:any) => item.id !== id));
+    deleteMethod("stocks/" + id).then((response) => {
+      alert("Item removed")
+      updateTrasnactions(trasnactions.filter((item:any) => item._id !== id));
+    }).catch((error) => {
+      console.error(error);
+    })
   };
 
   const handleCancelClick = (id: GridRowId) => () => {
@@ -54,6 +63,7 @@ export default function Dashboard() {
       field: 'stock_name',
       headerName: 'Stock name',
       width: 150,
+      renderCell: (params) => (params.value).toUpperCase(),
     },
     {
       field: 'transaction_type',
@@ -127,12 +137,22 @@ export default function Dashboard() {
     },
   ];
 
+  const isLoggedIn = useSelector(
+    (state: RootState) => state.userLogin.userLoggedIn
+  );
+
   useEffect(()=>{
-    getMethod("stocks/fetchStocks").then((response) => {
-      updateTrasnactions(response.data);
-    }).catch((err) => {
-      console.error(err)
-    })
+    if (isLoggedIn) {
+      getMethod("stocks/").then((response) => {
+        updateTrasnactions(response.data);
+      }).catch((err) => {
+        console.error(err)
+      })
+    } else {
+      localStorage.removeItem("token");
+      history("/");
+    }
+    
   },[])
 
   function DataTable() {
@@ -146,16 +166,15 @@ export default function Dashboard() {
             initialState={{
               pagination: {
                 paginationModel: {
-                  pageSize: 5,
+                  pageSize: 10,
                 },
               },
             }}
-            pageSizeOptions={[5]}
+            pageSizeOptions={[5, 10, 15]}
             disableRowSelectionOnClick
             disableColumnSelector={true}
           />
         </Box>
-        <NavLink className='btn btn-primary mt-2' to="/new-entry">Add a new record</NavLink>
       </>
     )
   }
@@ -163,6 +182,7 @@ export default function Dashboard() {
   return (
     <section className='container'>
       {trasnactions.length ? DataTable() : <NoRecordsFound></NoRecordsFound>}
+      <NavLink className='btn btn-warning text-light mt-2' to="/new-entry">Add a new record</NavLink>
     </section>
     
   );

@@ -1,9 +1,16 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { postMethod } from "../services/apiCallService";
 import { useNavigate } from "react-router-dom";
-
+import { useEffect } from "react";
+useEffect
 
 export default function NewEntryForm() {
+
+    useEffect(() => {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById("transactionDate")?.setAttribute("max", today);
+    },[])
+
     interface NewRecordModal {
         stock_name: string,
         transaction_type: string,
@@ -12,12 +19,14 @@ export default function NewEntryForm() {
         quantity: number,
         amount: number,
     }
+
     const navigate = useNavigate();
-    const { register, handleSubmit, getValues, setValue, getFieldState, watch, formState: { errors } } = useForm<NewRecordModal>()
+    const { register, handleSubmit, getValues, setValue, getFieldState, watch, reset, formState: { errors } } = useForm<NewRecordModal>()
     const onSubmit:SubmitHandler<NewRecordModal> = async (data:NewRecordModal) => {
         postMethod("stocks/addTransaction", data).then((response) => {
             alert("New record added");
-            navigate("/dashboard");
+            reset()
+            // navigate("/");
             
         }).catch((err) => {
             alert("Some erro ocurred");
@@ -36,8 +45,11 @@ export default function NewEntryForm() {
     }
 
     
-    const formatSingleDigit = (val: number) => {
-        return Math.round(val * 10) / 10;
+    const formatSingleDigit = (val: number, roundOfPlace: number = 2) => {
+        if (!roundOfPlace) {
+           return Math.round(val)
+        }
+        return Math.round(val * (10 * roundOfPlace)) / (10 * roundOfPlace);
     }
     
     const setFinalAmout = (e: React.ChangeEvent<HTMLInputElement>, formField: keyof NewRecordModal)=> {
@@ -51,7 +63,7 @@ export default function NewEntryForm() {
                     setValue("price", price, {shouldTouch: true, shouldValidate: true});
                 } else if(getFieldState("price").isTouched && !getFieldState("price").invalid) {
                     let quantity = getValues("amount") / getValues("price");
-                    quantity = formatSingleDigit(quantity);
+                    quantity = formatSingleDigit(quantity, 0);
                     setValue("quantity", quantity, {shouldTouch: true, shouldValidate: true});
                 }
                 break;
@@ -59,10 +71,14 @@ export default function NewEntryForm() {
                 if (getFieldState("quantity").isTouched && getFieldState("price").isTouched) {
                     let amount = getValues("quantity") * getValues("price");
                     amount = formatSingleDigit(amount);
+                    const decimalPart = amount % 1;
+                    if (decimalPart >= 0.50) {
+                        amount = Math.ceil(amount);
+                    }
                     setValue("amount", amount, {shouldTouch: true, shouldValidate: true});
                 } else if (getFieldState("amount").isTouched && getFieldState("price").isTouched) {
                     let quantity = getValues("amount") / getValues("price");
-                    quantity = formatSingleDigit(quantity);
+                    quantity = formatSingleDigit(quantity, 0);
                     setValue("quantity", quantity, {shouldTouch: true, shouldValidate: true});
                 } else if (getFieldState("amount").isTouched && getFieldState("quantity").isTouched) {
                     let price = getValues("amount") / getValues("quantity");
@@ -116,10 +132,10 @@ export default function NewEntryForm() {
 
                 <div className="col-md-2">
                     <label htmlFor="amount" className="form-label">Amount</label>
-                    <input {...register("amount", { required: true, min: 0.1, pattern:/^\d+(\.\d{1})?$/})} onChange={(e)=>{enhanceOnchange(e, 'amount')}} type="number" className={`form-control ${errors.amount ? 'is-invalid':''}`} placeholder="0" id="amount" />
+                    <input {...register("amount", { required: true, min: 0.1, pattern:/^\d+(\.\d{1,2})?$/})} onChange={(e)=>{enhanceOnchange(e, 'amount')}} type="number" className={`form-control ${errors.amount ? 'is-invalid':''}`} placeholder="0" id="amount" />
                 </div>
                 <div className="col-12 text-center">
-                    <button type="submit" className="btn btn-primary">Save record</button>
+                    <button type="submit" className="btn btn-warning text-light">Save record</button>
                 </div>
             </form>
         </div>
