@@ -1,4 +1,3 @@
-import "../style/navbar.scss";
 import {
   toggleLoginModal,
   setUserLoggedIn,
@@ -29,7 +28,7 @@ export default function Header() {
     return (
       <button
         type="button"
-        className="btn btn-outline-dark border-0 fw-bold"
+        className="btn btn-outline-warning fw-bold"
         onClick={handleLogout}
       >
         Logout
@@ -49,7 +48,7 @@ export default function Header() {
         >
           Sign in
         </button>
-        <button type="button" className="btn btn-success fw-bold">
+        <button type="button" className="btn btn-warning text-light fw-bold">
           Sign up
         </button>
       </>

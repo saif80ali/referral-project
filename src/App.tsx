@@ -7,22 +7,26 @@ import { Toaster } from './components/Toaster.tsx';
 import { LoginModal } from './modal/LoginModal';
 import Header from './components/Header.tsx'
 import HeroBanner from './components/HeroBanner';
-import Dashboard from './components/Dashboard.tsx';
+import Transactions from './components/Transactions';
 import NewEntryForm from './components/NewEntryForm.tsx';
-import { About } from './components/About.tsx';
-import { NotesDashboard } from './components/NotesDashboard.tsx';
+import About from './components/About.tsx';
+import NotesDashboard from './components/NotesDashboard.tsx';
+import Footer from './components/Footer.tsx';
+import Loader from './components/Loader.tsx';
 
 function App() {
   return (
     <Provider store={store}>
+      <Loader></Loader>
       <Header></Header>
       <Routes>
         <Route path="/" element={<HeroBanner/>}/>
         <Route path="about" element={<About/>}/>
         <Route path='notes' element={<NotesDashboard/>}/>
-        <Route path="transactions" element={<Dashboard/>}/>
+        <Route path="transactions" element={<Transactions/>}/>
         <Route path="new-entry" element={<NewEntryForm/>}/>
       </Routes>
+      <Footer></Footer>
       <LoginModal></LoginModal>
       <Toaster></Toaster>
     </Provider>

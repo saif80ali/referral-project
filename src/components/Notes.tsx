@@ -23,7 +23,6 @@ export const Notes = () => {
     if (isLoggedIn) {
         fetchallnote();
     } else {
-      localStorage.removeItem("token");
       history("/");
     }
   }, []);
