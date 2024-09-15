@@ -28,7 +28,7 @@ export default function Header() {
     return (
       <button
         type="button"
-        className="btn btn-outline-dark border-0 fw-bold"
+        className="btn btn-outline-warning fw-bold"
         onClick={handleLogout}
       >
         Logout

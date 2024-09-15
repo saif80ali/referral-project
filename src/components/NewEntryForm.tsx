@@ -1,11 +1,10 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { postMethod } from "../services/apiCallService";
-import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-useEffect
-
+import { useDispatch } from "react-redux";
+import { setLoader } from '../store/features/loaderState';
 export default function NewEntryForm() {
-
+    const dispatch = useDispatch();
     useEffect(() => {
         const today = new Date().toISOString().split('T')[0];
         document.getElementById("transactionDate")?.setAttribute("max", today);
@@ -20,16 +19,15 @@ export default function NewEntryForm() {
         amount: number,
     }
 
-    const navigate = useNavigate();
     const { register, handleSubmit, getValues, setValue, getFieldState, watch, reset, formState: { errors } } = useForm<NewRecordModal>()
     const onSubmit:SubmitHandler<NewRecordModal> = async (data:NewRecordModal) => {
+        dispatch(setLoader(true));
         postMethod("stocks/addTransaction", data).then((response) => {
-            alert("New record added");
             reset()
-            // navigate("/");
-            
+            dispatch(setLoader(false));
         }).catch((err) => {
             alert("Some erro ocurred");
+            dispatch(setLoader(false));
         })
     }
 

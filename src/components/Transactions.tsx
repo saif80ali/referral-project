@@ -9,10 +9,12 @@ import {getMethod, deleteMethod} from '../services/apiCallService';
 import { NavLink } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { RootState } from "../store/store";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { setLoader } from '../store/features/loaderState';
 
 export default function Transactions() {
+  const dispatch = useDispatch();
   let history = useNavigate();
   const [trasnactions, updateTrasnactions]: any = useState([]);
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
@@ -26,12 +28,14 @@ export default function Transactions() {
   };
 
   const handleDeleteClick = (id: GridRowId) => () => {
-    console.log("clikci", id)
+    dispatch(setLoader(true));
     deleteMethod("stocks/" + id).then((response) => {
       alert("Item removed")
       updateTrasnactions(trasnactions.filter((item:any) => item._id !== id));
+      dispatch(setLoader(false));
     }).catch((error) => {
       console.error(error);
+      dispatch(setLoader(false));
     })
   };
 
@@ -143,13 +147,14 @@ export default function Transactions() {
 
   useEffect(()=>{
     if (isLoggedIn) {
+      dispatch(setLoader(true));
       getMethod("stocks/").then((response) => {
         updateTrasnactions(response.data);
+        dispatch(setLoader(false));
       }).catch((err) => {
         console.error(err)
       })
     } else {
-      localStorage.removeItem("token");
       history("/");
     }
     
@@ -158,7 +163,7 @@ export default function Transactions() {
   function DataTable() {
     return (
       <>
-        <Box sx={{ height: 400, width: '100%' }}>
+        <Box sx={{ height: 'auto', width: '100%' }}>
           <DataGrid
             rows={trasnactions}
             getRowId={(trasnactions) => trasnactions?._id}

@@ -12,10 +12,12 @@ import NewEntryForm from './components/NewEntryForm.tsx';
 import About from './components/About.tsx';
 import NotesDashboard from './components/NotesDashboard.tsx';
 import Footer from './components/Footer.tsx';
+import Loader from './components/Loader.tsx';
 
 function App() {
   return (
     <Provider store={store}>
+      <Loader></Loader>
       <Header></Header>
       <Routes>
         <Route path="/" element={<HeroBanner/>}/>
