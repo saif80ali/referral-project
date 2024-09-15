@@ -2,7 +2,7 @@ import NoteBookScreenshot from "../assets/AboutPage.svg";
 import LinkedinBadge from "./LinkedinBadge";
 
 
-export const About = () => {
+const About = () => {
     return (
         <div>
           {/* Hero Section */}
@@ -52,3 +52,4 @@ export const About = () => {
         </div>
       );
 }
+export default About

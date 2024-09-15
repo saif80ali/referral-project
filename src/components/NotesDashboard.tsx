@@ -1,8 +1,8 @@
 import NoteState from "../context/notes/noteState"
-import {Addnote} from "./AddNote"
+import { Addnote } from "./AddNote"
 import { Notes } from "./Notes"
 
-export const NotesDashboard = () => {
+const NotesDashboard = () => {
     return (
         <NoteState>
             <section className="container">
@@ -12,3 +12,5 @@ export const NotesDashboard = () => {
         </NoteState>
     )
 }
+
+export default NotesDashboard;

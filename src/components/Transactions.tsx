@@ -12,7 +12,7 @@ import { RootState } from "../store/store";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-export default function Dashboard() {
+export default function Transactions() {
   let history = useNavigate();
   const [trasnactions, updateTrasnactions]: any = useState([]);
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
