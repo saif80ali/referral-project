@@ -2,13 +2,16 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../store/store'
 import { toggleLoginModal, setUserLoggedIn } from '../store/features/loginState';
+import { setToaster } from '../store/features/toasterState';
 import Modal from 'react-bootstrap/Modal';
 import loginImage from '../assets/loginVectorImage.png';
 import whiteSpinner from '../assets/White loader.svg';
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { postMethod } from "../services/apiCallService";
+import { googleSignIn } from "../services/firebaseSiginService";
 import { useNavigate } from 'react-router-dom';
+
 
 
 interface IFormInput {
@@ -30,6 +33,7 @@ export function LoginModal() {
       setLoading(false);
       if (response.data.success) {
         dispatch(toggleLoginModal());
+        dispatch(setToaster({type:"success", message: "Login successful!", time:1000}));
         setAuthToken(response.data.signedToken);
       }
     }).catch((error:any) => {
@@ -57,6 +61,10 @@ export function LoginModal() {
   const handleModalClose = ()=> {
     dispatch(toggleLoginModal());
     reset();
+  }
+
+  const handleGoogleLogin = () => {
+    googleSignIn();
   }
   return (
     <>
@@ -92,6 +100,7 @@ export function LoginModal() {
                         {loading ? <img style={{height:'24px'}} src={whiteSpinner} alt='Loading icon'/> : <span className='text-light'>Log in</span>}
                     </button>
                 </form>
+              <button onClick={handleGoogleLogin}>Sign in Google</button>
             </div>
         </Modal.Body>
       </Modal>

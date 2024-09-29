@@ -51,10 +51,6 @@ export default function Transactions() {
     }
   };
 
-  const capitalizeFirstWord = (text: string) => {
-    return text.charAt(0).toUpperCase() + text.slice(1);
-  };
-
   const columns: GridColDef<(typeof transactions)[number]>[] = [
     {
       field: 'transaction_date',
@@ -74,7 +70,7 @@ export default function Transactions() {
       headerName: 'Transaction type',
       width: 150,
       type: 'string',
-      renderCell: (params) => capitalizeFirstWord(params.value),
+      renderCell: (params) => params.value.charAt(0).toUpperCase() + params.value.slice(1),
     },
     {
       field: 'price',

@@ -1,25 +1,41 @@
-import ToastContainer from 'react-bootstrap/ToastContainer'
-import Toast from 'react-bootstrap/Toast';
 import { useSelector } from 'react-redux'
 import { RootState } from '../store/store'
+import {useEffect, useState} from 'react';
+import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar';
+import {ToasterDataModel} from '../models/toasterDataModel';
+import Alert from '@mui/material/Alert';
 
-export const Toaster = () => {
-    const toaster:any[] = useSelector((state: RootState) => state.toaster);
-    return (
-        <>
-            {!!toaster.length && <ToastContainer position='bottom-end' className='mb-3 me-4'>
-            <Toast
-            className="d-inline-block m-1 mb-3"
-            // bg={variant.toLowerCase()}
-            key={"idx"}
-            autohide={true}
-            delay={2000}
-            >
-            <Toast.Body className='text-white'>
-                {/* {message} */}
-            </Toast.Body>
-            </Toast>
-            </ToastContainer>}
-        </>
-    )
+export function Toaster() {
+  const toaster:ToasterDataModel = useSelector((state: RootState) => state.toaster);
+  const [open, setOpen] = useState(false);
+   useEffect(()=> {
+    setOpen(true);
+   }, [toaster]);
+
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: SnackbarCloseReason,
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  return (
+    <>
+      {!!toaster.type && <Snackbar open={open} autoHideDuration={toaster.time || 3000} onClose={handleClose} anchorOrigin={{ vertical:"bottom", horizontal: "right" }} >
+        <Alert
+          onClose={handleClose}
+          severity={toaster.type}
+          variant="filled"
+          sx={{ width: '100%' }}
+          
+        >
+          {toaster.message}
+        </Alert>
+      </Snackbar>}
+    </>
+  );
 }

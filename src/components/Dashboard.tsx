@@ -6,7 +6,7 @@ import trading from "../assets/trading.svg";
 import manageNotes from "../assets/manage-notes.svg";
 import dailyNotes from "../assets/daily-notes.svg";
 
-export default function HeroBanner() {
+export default function Dashboard() {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(
     (state: RootState) => state.userLogin.userLoggedIn
@@ -16,11 +16,9 @@ export default function HeroBanner() {
       {/* Hero Section */}
       <section className="row align-items-center my-5">
         <div className="col-md-6">
-          <h1>Welcome to iNotebook</h1>
+          <h1>Welcome to NoteXchange</h1>
           <p className="lead">
-            Organize your life effortlessly! iNotebook helps you take daily
-            notes, track tasks, and stay on top of your stock trading activities
-            in one seamless platform.
+          Effortlessly organize your life with NoteXchange! Track daily notes, manage tasks, and monitor stock trades all in one place. Simplify your routine with our intuitive platform.
           </p>
           
           {!isLoggedIn && <button className="btn btn-warning text-light btn-lg mt-3" onClick={()=> {dispatch(toggleLoginModal())}}>
@@ -38,11 +36,11 @@ export default function HeroBanner() {
 
       {/* Features Section */}
       <section className="row text-center justify-content-center mb-5">
-        <div className="col-md-6">
+        <div className="col-md-4">
           <h2>Daily Notes</h2>
           <p>
             Capture your thoughts, keep track of important tasks, and never
-            forget an idea. Whether it's work or personal, iNotebook helps you
+            forget an idea. Whether it's work or personal, NoteXchange helps you
             stay organized and productive.
           </p>
           <img
@@ -52,20 +50,7 @@ export default function HeroBanner() {
           />
         </div>
 
-        <div className="col-md-6">
-          <h2>Stock Trading</h2>
-          <p>
-            Easily monitor your investments and trading history. iNotebook keeps
-            your stock trading records safe, ensuring you have a clear picture
-            of your financial journey.
-          </p>
-          <img
-            src={trading}
-            alt="Stock Trading"
-            className="img-fluid rounded my-3"
-          />
-        </div>
-        <div className="col-md-6">
+        <div className="col-md-4">
           <h2>Cash Flow Tracking</h2>
           <p>
             Manage your cash flow by keeping track of your income and expenses. Stay on top of your budget and maintain financial stability with ease.
@@ -74,7 +59,21 @@ export default function HeroBanner() {
             src={dailyNotes}
             alt="Cash Flow"
             className="img-fluid rounded my-3"
-            style={{maxHeight: '450px'}}
+            style={{maxHeight: '269px'}}
+          />
+        </div>
+
+        <div className="col-md-4">
+          <h2>Stock Trading</h2>
+          <p>
+            Easily monitor your investments and trading history. NoteXchange keeps
+            your stock trading records safe, ensuring you have a clear picture
+            of your financial journey.
+          </p>
+          <img
+            src={trading}
+            alt="Stock Trading"
+            className="img-fluid rounded my-3"
           />
         </div>
       </section>

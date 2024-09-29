@@ -19,7 +19,8 @@ export default function NewEntryForm() {
         amount: number,
     }
 
-    const { register, handleSubmit, getValues, setValue, getFieldState, watch, reset, formState: { errors } } = useForm<NewRecordModal>()
+    const { register, handleSubmit, getValues, setValue, getFieldState, watch, reset, formState: { errors } } = useForm<NewRecordModal>();
+    
     const onSubmit:SubmitHandler<NewRecordModal> = async (data:NewRecordModal) => {
         dispatch(setLoader(true));
         postMethod("stocks/addTransaction", data).then((response) => {

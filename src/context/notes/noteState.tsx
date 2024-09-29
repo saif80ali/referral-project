@@ -2,6 +2,7 @@ import { useState, ReactNode } from 'react';
 import NoteContext from './noteContext';
 import { getMethod, postMethod, deleteMethod, putMethod } from '../../services/apiCallService';
 import { setLoader } from '../../store/features/loaderState';
+import { setToaster } from '../../store/features/toasterState';
 import { useDispatch } from 'react-redux';
 
 const NoteState = ({ children }: { children: ReactNode }) => {
@@ -26,6 +27,7 @@ const NoteState = ({ children }: { children: ReactNode }) => {
             const appendNote = note.concat(response.data);
             setNote(appendNote);
             dispatch(setLoader(false));
+            dispatch(setToaster({type: "success", message: "Note addedd succesfully"}));
         }).catch((error) => {
             console.error(error);
             dispatch(setLoader(false));
@@ -38,6 +40,7 @@ const NoteState = ({ children }: { children: ReactNode }) => {
             const filteredNote = note.filter((element: any) => element._id !== id);
             setNote(filteredNote);
             dispatch(setLoader(false));
+            dispatch(setToaster({type:"error", message: "Note addedd succesfully"}));
         }).catch((error) => {
             console.error(error);
             dispatch(setLoader(false));
