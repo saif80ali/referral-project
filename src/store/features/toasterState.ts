@@ -1,21 +1,24 @@
 import { createSlice, PayloadAction  } from '@reduxjs/toolkit';
+import { ToasterDataModel } from '../../models/toasterDataModel';
 
-export interface toasterState {
-  message: string;
-  type: string;
-  id: string;
+
+
+// export interface toasterServiceItems extends Array<ToasterDataModel>{}
+export const initialState: ToasterDataModel = {
+  type: undefined,
+  message: ''
 }
-
-export interface toasterServiceItems extends Array<toasterState>{}
-export const initialState: toasterServiceItems = []
 
 
 export const toasterSlice = createSlice({
   name: 'toaster',
   initialState,
   reducers: {
-    setToaster(state, action: PayloadAction<toasterServiceItems>) {
-        state = action.payload;
+    setToaster(state, action: PayloadAction<ToasterDataModel>) {
+      return {
+        ...state,      // Spread the existing state
+        ...action.payload,  // Spread the new object from the payload to overwrite existing state values
+      }
     },
   },
 })

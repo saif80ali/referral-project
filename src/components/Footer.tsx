@@ -3,7 +3,7 @@ export default function Footer() {
         <footer className="footer bg-white text-center py-3">
           <div className="container">
             <p className="mb-0">
-              © 2024 iNotebook. All rights reserved.
+              © 2024 NoteXchange. All rights reserved.
             </p>
           </div>
         </footer>

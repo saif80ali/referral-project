@@ -39,6 +39,7 @@ export const Notes = () => {
         note.description;
     }
   };
+  
   const handleUpdateNote = () => {
     updateNote({
       id: (document.getElementById("_id") as HTMLInputElement).value,
@@ -75,11 +76,10 @@ export const Notes = () => {
               </h5>
               <button
                 type="button"
-                className="close"
+                className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               >
-                <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div className="modal-body">

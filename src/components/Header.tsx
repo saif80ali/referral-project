@@ -2,13 +2,15 @@ import {
   toggleLoginModal,
   setUserLoggedIn,
 } from "../store/features/loginState";
+import {setToaster} from "../store/features/toasterState";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { RootState } from "../store/store";
 import { useEffect } from "react";
 
 export default function Header() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -22,6 +24,8 @@ export default function Header() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     dispatch(setUserLoggedIn(false));
+    dispatch(setToaster({type:"warning", message: "User logged out!", time: 1000}));
+    navigate("/");
   };
 
   function logoutButton() {
@@ -64,7 +68,7 @@ export default function Header() {
     <nav className="navbar navbar-expand-lg border-body">
       <div className="container">
         <NavLink to={"/"} className="mb-0 fs-1 heading-logo-font nav-link text-warning">
-          iNotebook
+          NoteXchange
         </NavLink>
         <button
           className="navbar-toggler"
@@ -117,6 +121,22 @@ export default function Header() {
                 }
               >
                 Trade book
+              </NavLink></li>
+              <li className="nav-item"><NavLink
+                to="/cash-flow"
+                className={({ isActive }) =>
+                  `nav-link ${isActive ? "text-warning" : ""}`
+                }
+              >
+                Cash flow
+              </NavLink></li>
+              <li className="nav-item"><NavLink
+                to="/profile"
+                className={({ isActive }) =>
+                  `nav-link ${isActive ? "text-warning" : ""}`
+                }
+              >
+                My profile
               </NavLink></li>
               </>}
               

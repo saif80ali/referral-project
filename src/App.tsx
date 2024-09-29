@@ -15,6 +15,7 @@ import Footer from './components/Footer';
 import Loader from './components/Loader';
 import PageNotFound from './components/PageNotFound';
 import MyProfile from './components/MyProfile';
+import CashFlow from './components/CashFlow.tsx';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="about" element={<About/>}/>
         <Route path='notes' element={<NotesDashboard/>}/>
         <Route path="transactions" element={<Transactions/>}/>
+        <Route path="cash-flow" element={<CashFlow/>}/>
         <Route path="new-entry" element={<NewEntryForm/>}/>
         <Route path="sign-up" element={<MyProfile/>}/>
         <Route path="profile" element={<MyProfile/>}/>
