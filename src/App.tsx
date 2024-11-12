@@ -25,14 +25,14 @@ function App() {
       <Header></Header>
       <Routes>
         <Route path="/" element={<Dashboard/>}/>
-        <Route path="home" element={<Navigate to="/" replace />} />
-        <Route path="about" element={<About/>}/>
-        <Route path='notes' element={<NotesDashboard/>}/>
-        <Route path="transactions" element={<Transactions/>}/>
-        <Route path="cash-flow" element={<CashFlow/>}/>
-        <Route path="new-entry" element={<NewEntryForm/>}/>
-        <Route path="sign-up" element={<SignUp/>}/>
-        <Route path="profile" element={<MyProfile/>}/>
+        <Route path="/home" element={<Navigate to="/" replace />} />
+        <Route path="/about" element={<About/>}/>
+        <Route path='/notes' element={<NotesDashboard/>}/>
+        <Route path="/transactions" element={<Transactions/>}/>
+        <Route path="/cash-flow" element={<CashFlow/>}/>
+        <Route path="/new-entry" element={<NewEntryForm/>}/>
+        <Route path="/sign-up" element={<SignUp/>}/>
+        <Route path="/profile" element={<MyProfile/>}/>
         <Route path="*" element={<PageNotFound/>}/>
       </Routes>
       <Footer></Footer>
