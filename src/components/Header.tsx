@@ -122,14 +122,14 @@ export default function Header() {
               >
                 Trade book
               </NavLink></li>
-              <li className="nav-item"><NavLink
+              {/* <li className="nav-item"><NavLink
                 to="/cash-flow"
                 className={({ isActive }) =>
                   `nav-link ${isActive ? "text-warning" : ""}`
                 }
               >
                 Cash flow
-              </NavLink></li>
+              </NavLink></li> */}
               <li className="nav-item"><NavLink
                 to="/profile"
                 className={({ isActive }) =>
