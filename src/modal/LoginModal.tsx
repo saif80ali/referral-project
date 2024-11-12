@@ -9,7 +9,7 @@ import whiteSpinner from '../assets/White loader.svg';
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { postMethod } from "../services/apiCallService";
-import { googleSignIn } from "../services/firebaseSiginService";
+// import { googleSignIn } from "../services/firebaseSiginService";
 import { useNavigate } from 'react-router-dom';
 
 
@@ -63,9 +63,9 @@ export function LoginModal() {
     reset();
   }
 
-  const handleGoogleLogin = () => {
-    googleSignIn();
-  }
+  // const handleGoogleLogin = () => {
+  //   googleSignIn();
+  // }
   return (
     <>
       <Modal
@@ -100,7 +100,7 @@ export function LoginModal() {
                         {loading ? <img style={{height:'24px'}} src={whiteSpinner} alt='Loading icon'/> : <span className='text-light'>Log in</span>}
                     </button>
                 </form>
-              <button onClick={handleGoogleLogin}>Sign in Google</button>
+              {/* <button onClick={handleGoogleLogin}>Sign in Google</button> */}
             </div>
         </Modal.Body>
       </Modal>

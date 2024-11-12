@@ -12,6 +12,7 @@ import { RootState } from "../store/store";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setLoader } from '../store/features/loaderState';
+import { setToaster } from '../store/features/toasterState';
 
 export default function Transactions() {
   const dispatch = useDispatch();
@@ -29,12 +30,11 @@ export default function Transactions() {
 
   const handleDeleteClick = (id: GridRowId) => () => {
     dispatch(setLoader(true));
-    deleteMethod("stocks/" + id).then((response) => {
+    deleteMethod("stocks/" + id).then(() => {
       alert("Item removed")
       updatetransactions(transactions.filter((item:any) => item._id !== id));
       dispatch(setLoader(false));
-    }).catch((error) => {
-      console.error(error);
+    }).catch(() => {
       dispatch(setLoader(false));
     })
   };
@@ -151,8 +151,9 @@ export default function Transactions() {
       getMethod("stocks/").then((response) => {
         updatetransactions(response.data);
         dispatch(setLoader(false));
-      }).catch((err) => {
-        console.error(err)
+      }).catch(() => {
+        dispatch(setLoader(false));
+        dispatch(setToaster({type:"error", message: "Something went wrong", time:2000}));
       })
     } else {
       history("/");

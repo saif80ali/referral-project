@@ -1,17 +1,11 @@
 import "../style/cashflow.scss";
+import siteUnderMaintainance from "../assets/under-maintaince-page.svg"
 
 export default function CashFlow() {
   return (
-    <div className="container card-container">
-      <div className="each-card">
-        <div className="card-information">
-          <div className="name-initials">IL</div>
-          <div>Name of vendor</div>
-          <div>12552264</div>
-        </div>
-        <div className="date-time">27 Oct 2024</div>
-      </div>
-      
+    <div className="container">
+      <img className="w-100 maintainance-image" src={siteUnderMaintainance} />
+      <h3 className="text-center">This page is under development</h3>
     </div>
   );
 }

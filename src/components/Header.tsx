@@ -40,6 +40,10 @@ export default function Header() {
     );
   }
 
+  function redirecToSignUp() {
+    navigate("/sign-up")
+  }
+
   function loginOptions() {
     return (
       <>
@@ -52,7 +56,7 @@ export default function Header() {
         >
           Sign in
         </button>
-        <button type="button" className="btn btn-warning text-light fw-bold">
+        <button onClick={redirecToSignUp} type="button" className="btn btn-warning text-light fw-bold">
           Sign up
         </button>
       </>
@@ -122,14 +126,14 @@ export default function Header() {
               >
                 Trade book
               </NavLink></li>
-              {/* <li className="nav-item"><NavLink
+              <li className="nav-item"><NavLink
                 to="/cash-flow"
                 className={({ isActive }) =>
                   `nav-link ${isActive ? "text-warning" : ""}`
                 }
               >
                 Cash flow
-              </NavLink></li> */}
+              </NavLink></li>
               <li className="nav-item"><NavLink
                 to="/profile"
                 className={({ isActive }) =>

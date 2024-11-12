@@ -16,6 +16,7 @@ import Loader from './components/Loader';
 import PageNotFound from './components/PageNotFound';
 import MyProfile from './components/MyProfile';
 import CashFlow from './components/CashFlow.tsx';
+import SignUp from './components/SignUp.tsx';
 
 function App() {
   return (
@@ -30,7 +31,7 @@ function App() {
         <Route path="transactions" element={<Transactions/>}/>
         <Route path="cash-flow" element={<CashFlow/>}/>
         <Route path="new-entry" element={<NewEntryForm/>}/>
-        <Route path="sign-up" element={<MyProfile/>}/>
+        <Route path="sign-up" element={<SignUp/>}/>
         <Route path="profile" element={<MyProfile/>}/>
         <Route path="*" element={<PageNotFound/>}/>
       </Routes>
