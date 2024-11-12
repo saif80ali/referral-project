@@ -87,7 +87,7 @@ export function LoginModal() {
                     {errors.email && <span className='text-danger'>{errors.email.message}</span>}
 
                     <div className="mt-3">
-                        <input id="userPassword" type="password" {...register("password", { required: {value: true, message:"Password is required"},minLength:{value:4, message: "Password must be of atleast 8 characters"}, maxLength: 150})}  className={`form-control ${errors.password ? 'is-invalid':''}`} disabled={loading} placeholder='Password'/>
+                        <input id="userPassword" type="password" {...register("password", { required: {value: true, message:"Password is required"},minLength:{value:8, message: "Password must be of atleast 8 characters"}, maxLength: 150})}  className={`form-control ${errors.password ? 'is-invalid':''}`} disabled={loading} placeholder='Password'/>
                     </div>
                     {errors.password && <span className='text-danger'>{errors.password.message}</span>}
 
