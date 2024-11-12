@@ -35,9 +35,12 @@ export function LoginModal() {
         dispatch(toggleLoginModal());
         dispatch(setToaster({type:"success", message: "Login successful!", time:1000}));
         setAuthToken(response.data.signedToken);
+      } else {
+        dispatch(setToaster({type:"error", message: response?.data?.error, time:1000}));
       }
     }).catch((error:any) => {
       setLoading(false);
+      dispatch(setToaster({type:"error", message: "Something went wrong", time:1000}));
       console.error(error);
     });  
   }
