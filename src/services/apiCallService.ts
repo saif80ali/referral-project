@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const baseURL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000/api/";
+const baseURL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
 const getMethod = (endpoint:string) => {
-    return axios.get(baseURL + endpoint, {
+    return axios.get(baseURL + "/api/" + endpoint, {
         headers: {
           'auth-token': localStorage.getItem('token'),
         }
