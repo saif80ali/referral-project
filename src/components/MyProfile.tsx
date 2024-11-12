@@ -36,8 +36,7 @@ function MyProfile() {
         setUser(response.data);
         dispatch(setLoader(false));
       })
-      .catch((error) => {
-        console.error(error);
+      .catch(() => {
         dispatch(setLoader(true));
       });
   }
@@ -81,7 +80,7 @@ function MyProfile() {
           <div className="col-8">{new Date(user.date).toLocaleDateString()}</div>
         </div>
         <div className="text-center mt-4">
-          <Button variant="warning" className="w-100" onClick={handleOpen}>
+          <Button variant="warning" disabled className="w-100" onClick={handleOpen}>
             <Lock className="me-2" /> Change Password
           </Button>
         </div>

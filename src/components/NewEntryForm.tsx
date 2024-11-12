@@ -23,11 +23,11 @@ export default function NewEntryForm() {
     
     const onSubmit:SubmitHandler<NewRecordModal> = async (data:NewRecordModal) => {
         dispatch(setLoader(true));
-        postMethod("stocks/addTransaction", data).then((response) => {
+        postMethod("stocks/addTransaction", data).then(() => {
             reset()
             dispatch(setLoader(false));
-        }).catch((err) => {
-            alert("Some erro ocurred");
+        }).catch(() => {
+            alert("Some error occurred");
             dispatch(setLoader(false));
         })
     }
