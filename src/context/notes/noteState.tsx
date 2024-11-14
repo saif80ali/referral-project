@@ -16,39 +16,44 @@ const NoteState = ({ children }: { children: ReactNode }) => {
             dispatch(setLoader(false));
         }).catch(() => {
             dispatch(setLoader(false));
+            dispatch(setToaster({type: "error", message: "Something went wrong"}));
         });
     }
 
     const addNote = (newNote: any) => {
         dispatch(setLoader(true));
         postMethod('notes/addnote', newNote).then((response) => {
-            const appendNote = note.concat(response.data);
+            const appendNote = note.concat(response.data.savednote);
             setNote(appendNote);
             dispatch(setLoader(false));
-            dispatch(setToaster({type: "success", message: "Note addedd succesfully"}));
+            dispatch(setToaster({type: "success", message: response.data.message}));
         }).catch(() => {
             dispatch(setLoader(false));
+            dispatch(setToaster({type: "error", message: "Something went wrong"}));
         });
     }
 
     const deleteNote = (id: string) => {
         dispatch(setLoader(true));
-        deleteMethod(`notes/deletenote/${id}`).then(() => {
+        deleteMethod(`notes/deletenote/${id}`).then((response) => {
             const filteredNote = note.filter((element: any) => element._id !== id);
             setNote(filteredNote);
             dispatch(setLoader(false));
-            dispatch(setToaster({type:"error", message: "Note addedd succesfully"}));
+            dispatch(setToaster({type:"success", message: response.data.message}));
         }).catch(() => {
             dispatch(setLoader(false));
+            dispatch(setToaster({type: "error", message: "Something went wrong"}));
         });
     }
 
     const updateNote = (newNote: any) => {
         dispatch(setLoader(true));
-        putMethod(`notes/updatenote/${newNote.id}`, newNote).then(() => {
+        putMethod(`notes/updatenote/${newNote.id}`, newNote).then((response) => {
+            dispatch(setToaster({type: "success", message: response.data.message}));
             fetchallnote();
         }).catch(() => {
             dispatch(setLoader(false));
+            dispatch(setToaster({type: "error", message: "Something went wrong"}));
         });
     }
 

@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridRowModes, GridRowModesModel  } from '@mui/x-data-grid';
-import EditIcon from '@mui/icons-material/Edit';
+// import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
@@ -20,9 +20,9 @@ export default function Transactions() {
   const [transactions, updatetransactions]: any = useState([]);
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
 
-  const handleEditClick = (id: GridRowId) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
-  };
+  // const handleEditClick = (id: GridRowId) => () => {
+  //   setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+  // };
 
   const handleSaveClick = (id: GridRowId) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
@@ -30,12 +30,13 @@ export default function Transactions() {
 
   const handleDeleteClick = (id: GridRowId) => () => {
     dispatch(setLoader(true));
-    deleteMethod("stocks/" + id).then(() => {
-      alert("Item removed")
+    deleteMethod("stocks/" + id).then((response) => {
       updatetransactions(transactions.filter((item:any) => item._id !== id));
       dispatch(setLoader(false));
+      dispatch(setToaster({type: "success", message: response.data.message}));
     }).catch(() => {
       dispatch(setLoader(false));
+      dispatch(setToaster({type: "error", message: "Something went wrong"}));
     })
   };
 
@@ -123,13 +124,13 @@ export default function Transactions() {
           ];
         }
         return [
-          <GridActionsCellItem
-            icon={<EditIcon />}
-            label="Edit"
-            className="textPrimary"
-            onClick={handleEditClick(id)}
-            color="inherit"
-          />,
+          // <GridActionsCellItem
+          //   icon={<EditIcon />}
+          //   label="Edit"
+          //   className="textPrimary"
+          //   onClick={handleEditClick(id)}
+          //   color="inherit"
+          // />,
           <GridActionsCellItem
             icon={<DeleteIcon />}
             label="Delete"

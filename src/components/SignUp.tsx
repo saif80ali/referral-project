@@ -56,7 +56,8 @@ const Signup = () => {
       })
       .catch((error: any) => {
         dispatch(setLoader(false));
-        let message = error.response?.data?.errors ?? "Something went wrong";
+        console.log(error.response?.data)
+        let message = error.response?.data?.error ?? "Something went wrong";
         dispatch(setToaster({ type: "error", message: message, time: 2000 }));
       });
   };
@@ -107,7 +108,7 @@ const Signup = () => {
 
           <div className="mt-3">
             <input
-              id="userPassword"
+              id="userSignupPassword"
               type="password"
               {...register("password", {
                 required: { value: true, message: "Password is required" },
