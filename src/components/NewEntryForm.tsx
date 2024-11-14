@@ -3,6 +3,7 @@ import { postMethod } from "../services/apiCallService";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setLoader } from '../store/features/loaderState';
+import { setToaster } from "../store/features/toasterState";
 export default function NewEntryForm() {
     const dispatch = useDispatch();
     useEffect(() => {
@@ -23,11 +24,12 @@ export default function NewEntryForm() {
     
     const onSubmit:SubmitHandler<NewRecordModal> = async (data:NewRecordModal) => {
         dispatch(setLoader(true));
-        postMethod("stocks/addTransaction", data).then(() => {
+        postMethod("stocks/addTransaction", data).then((response) => {
             reset()
             dispatch(setLoader(false));
+            dispatch(setToaster({type: "success", message: response.data.message}));
         }).catch(() => {
-            alert("Some error occurred");
+            dispatch(setToaster({type: "error", message: "Something went wrong"}));
             dispatch(setLoader(false));
         })
     }
