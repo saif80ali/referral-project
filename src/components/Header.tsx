@@ -7,11 +7,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { RootState } from "../store/store";
 import { useEffect } from "react";
+import { useIsUserOnline } from "../shared/useIsUserOnline";
 
 export default function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const userStatus = useIsUserOnline();
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token?.length) {
@@ -63,13 +64,40 @@ export default function Header() {
     );
   }
 
+  const onlineAlert = ()=>{
+    return (
+      <>
+        <div className="alert alert-success d-flex align-items-center" role="alert">
+          <svg className="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlinkHref="#check-circle-fill"/></svg>
+          <div>
+            User is online
+          </div>
+        </div>
+      </>
+    )
+  }
+
+  const offlineAlert = ()=>{
+    return (
+      <>
+        <div className="alert alert-danger d-flex align-items-center" role="alert">
+          <svg className="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlinkHref="#exclamation-triangle-fill"/></svg>
+          <div>
+            User is offline
+          </div>
+        </div>
+      </>
+    )
+  }
+
   const isLoggedIn = useSelector(
     (state: RootState) => state.userLogin.userLoggedIn
   );
   const NavButton = isLoggedIn ? logoutButton() : loginOptions();
-
+  const UserStatusAlert = userStatus ? onlineAlert() : offlineAlert();
   return (
     <nav className="navbar navbar-expand-lg border-body">
+      {UserStatusAlert}
       <div className="container">
         <NavLink to={"/"} className="mb-0 fs-1 heading-logo-font nav-link text-warning">
           NoteXchange
